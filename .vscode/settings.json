@@ -1,0 +1,5 @@
+{
+    "files.autoSave": "onFocusChange",
+    "prettier.singleQuote": true,
+    "yaml.format.singleQuote": true
+}
