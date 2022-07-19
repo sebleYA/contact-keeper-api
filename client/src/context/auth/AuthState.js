@@ -4,17 +4,14 @@ import AuthContext from './authContext';
 import authReducer from './authReducer';
 import setAuthToken from '../../utils/setAuthToken';
 import {
-  AUTH_ERROR,
-  CLEAR_ERRORS,
-  REGISTER_FAIL,
   REGISTER_SUCCESS,
+  REGISTER_FAIL,
   USER_LOADED,
-  // USER_LOADED,
-  // AUTH_ERROR,
-  // LOGIN_SUCCESS,
-  // LOGIN_FAIL,
-  // LOGOUT,
-  // CLEAR_ERRORS,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
+  CLEAR_ERRORS,
 } from '../types';
 
 const AuthState = (props) => {
@@ -33,7 +30,6 @@ const AuthState = (props) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-
 
     try {
       const res = await axios.get('/api/auth');
@@ -69,11 +65,32 @@ const AuthState = (props) => {
       });
     }
   };
+
   // Login User
-  const login = () => console.log('Login user');
+  const login = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post('/api/auth', formData, config);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.msg,
+      });
+    }
+  };
 
   //Logout
-  const logout = () => console.log('Logout User');
+  const logout = () => dispatch({ type: LOGOUT})
 
   // Clear Erros
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
