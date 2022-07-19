@@ -18,15 +18,17 @@ const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
-    loadding: true,
+    loading: true,
     user: null,
     error: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
+  console.log('state',state);
 
   // Load User
   const loadUser = async () => {
+    console.log('token', localStorage.token);
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
@@ -90,7 +92,7 @@ const AuthState = (props) => {
   };
 
   //Logout
-  const logout = () => dispatch({ type: LOGOUT})
+  const logout = () => dispatch({ type: LOGOUT });
 
   // Clear Erros
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
@@ -100,7 +102,7 @@ const AuthState = (props) => {
       value={{
         token: state.token,
         isAuthenticated: state.isAuthenticated,
-        loadding: state.loading,
+        loading: state.loading,
         user: state.user,
         error: state.error,
         loadUser,
